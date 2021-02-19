@@ -9,14 +9,15 @@ function doGet(e) {
   return ContentService.createTextOutput(JSON.stringify(biArrayToObject(clientsData)));
 }
 
-// From https://stackoverflow.com/a/22917499/1027723
+// Based on https://mashe.hawksey.info/2018/02/google-apps-script-patterns-using-the-destructuring-assignment-syntax-and-object-arrays-to-process-google-sheet-rows/#comment-184960
 function biArrayToObject(data) {
   const header = data.shift();
-  const obj = data.map(function (values) {
-    return header.reduce(function (o, k, i) {
-      o[k] = values[i];
-      return o;
+  const object = data.map(function (row) {
+    const nextRowObject = header.reduce(function (accumulator, currentValue, currentIndex) {
+      accumulator[currentValue] = row[currentIndex];
+      return accumulator;
     }, {});
+    return nextRowObject;
   });
-  return obj;
+  return object;
 }
