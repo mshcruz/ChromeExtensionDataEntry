@@ -2,14 +2,12 @@
   "manifest_version": 3,
   "name": "Chrome Extension Data Entry Demo",
   "version": "0.1.0",
-  "description": "Demonstration of how to use Chrome extension to input data to a web form.",
+  "description": "Demonstration of how to use Chrome extension to input data into a web form.",
   "icons": {
     "128": "media/logo128.png",
     "48": "media/logo48.png",
     "16": "media/logo16.png"
   },
-  "permissions": ["activeTab", "notifications", "scripting", "tabs"],
-  "host_permissions": ["http://script.google.com/*", "*://*/*"],
   "action": {
     "default_icon": {
       "128": "media/logo128.png",
@@ -18,13 +16,14 @@
     },
     "default_title": "Chrome Extension Data Entry Demo"
   },
+  "permissions": ["tabs"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "worker.js"
   },
   "content_scripts": [
     {
       "js": ["content.js"],
-      "matches": ["*://*/*"]
+      "matches": ["*://*/SampleForm.html*"]
     }
   ]
 }
