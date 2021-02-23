@@ -110,7 +110,7 @@
         </div>
       </div>
       <div class="col-12">
-        <button type="button" class="btn btn-primary" onclick="registerClient()" id="registerButton">Register</button>
+        <button type="button" class="btn btn-primary" id="registerButton">Register</button>
       </div>
       </form>
     </div>
@@ -187,15 +187,28 @@
     integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
     crossorigin="anonymous"></script>
   <script>
-    function registerClient() {
-      let newClientData = '';
-      $('input[type="text"], select').each(function () {
-        newClientData += `<td>${$(this).val()}</td>`;
-      });
-      newClientData += `<td>${$('#active').is(":checked") ? 'YES' : 'NO'}</td>`;
-      $('#clientsTable > tbody:last-child').append(`<tr>${newClientData}</tr>`);
-      $('#registrationForm').trigger("reset");
-    }
+    $('#registerButton').click(function () {
+      // Change button to spinner
+      $('#registerButton').prop('disabled', true).html(
+        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+         <span class="sr-only">Registering...</span>`
+      );
+
+      // Artificial delay to emulate database access
+      setTimeout(function () {
+        // Add values as a new client row
+        let newClientData = '';
+        $('input[type="text"], select').each(function () {
+          newClientData += `<td>${$(this).val()}</td>`;
+        });
+        newClientData += `<td>${$('#active').is(":checked") ? 'YES' : 'NO'}</td>`;
+        $('#clientsTable > tbody:last-child').append(`<tr>${newClientData}</tr>`);
+
+        // Reset form and button
+        $('#registrationForm').trigger("reset");
+        $('#registerButton').text('Register').prop('disabled', false);
+      }, 1000);
+    });
   </script>
 </body>
 
