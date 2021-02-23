@@ -1,11 +1,14 @@
 function doGet(e) {
   const clientsSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Clients');
-  const clientsData = clientsSheet.getRange(2, 1, clientsSheet.getMaxRows(), clientsSheet.getMaxColumns()).getValues();
-  clientsData.unshift(
+  const clientsData = clientsSheet.getDataRange().getValues();
+
+  // Replace columns' names to match the fields in the form
+  clientsData[0] =
     ['code', 'name', 'address',
       'country', 'type', 'discount',
       'limit', 'status', 'terms',
-      'language', 'currency', 'active']);
+      'language', 'currency', 'active'];
+
   return ContentService.createTextOutput(JSON.stringify(biArrayToObject(clientsData)));
 }
 
@@ -19,5 +22,6 @@ function biArrayToObject(data) {
     }, {});
     return nextRowObject;
   });
+
   return object;
 }
